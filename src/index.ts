@@ -21,7 +21,7 @@ async function onStatus (statusContext: Context): Promise<void> {
   if (payload.state !== 'failure' || !ciProvider) return
 
   try {
-    let comment: IssuesCreateCommentParams = await (ciProvider === 'circleci'
+    const comment: IssuesCreateCommentParams = await (ciProvider === 'circleci'
       ? BuildCircleCIComment(statusContext)
       : BuildTravisCIComment(statusContext))
 
