@@ -1,6 +1,6 @@
-# ci-status-report
+# CI-Status-Report
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that A CI Status Reporter built using Probot
+> A GitHub App built with [Probot](https://github.com/probot/probot) that runs a build status report from Circle CI or Travis CI on Pull Requests
 
 ## Setup
 
@@ -13,6 +13,13 @@ npm run build
 
 # Run the bot
 npm start
+```
+
+## Testing
+
+```sh
+# Run the test suite
+npm test
 ```
 
 ## Contributing
