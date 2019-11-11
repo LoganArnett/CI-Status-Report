@@ -1,0 +1,12 @@
+[
+  {
+    "message": "\u001b[2K\u001b[1G\u001b[1myarn run v1.5.1\u001b[22m\r\n\u001b[2K\u001b[1G\u001b[2m$ mocha\u001b[22m\r\n\r\n\u001b[0m\u001b[0m\r\n\u001b[0m  Test Suite\u001b[0m\r\n\u001b[0m    stringAddition helper\u001b[0m\r\n    \u001b[31m  1) should add strings and return a number\u001b[0m\r\n\r\n\r\n\u001b[92m \u001b[0m\u001b[32m 0 passing\u001b[0m\u001b[90m (6ms)\u001b[0m\r\n\u001b[31m  1 failing\u001b[0m\r\n\r\n\u001b[0m  1) Test Suite\r\n       stringAddition helper\r\n         should add strings and return a number:\r\n\r\n      \u001b[31mAssertionError [ERR_ASSERTION]: 4 == 3\u001b[0m\r\n      \u001b[32m+ expected\u001b[0m \u001b[31m- actual\u001b[0m\r\n\r\n      \u001b[31m-4\u001b[0m\r\n      \u001b[32m+3\u001b[0m\r\n      \u001b[0m\u001b[90m\r\n      at Context.it (test/index.test.js:8:14)\r\n\u001b[0m\r\n\r\n\r\n\u001b[2K\u001b[1G\u001b[31merror\u001b[39m An unexpected error occurred: \"Command failed.\r\nExit code: 1\r\nCommand: sh\r\nArguments: -c mocha\r\nDirectory: /home/circleci/repo\r\nOutput:\r\n\".\r\n\u001b[2K\u001b[1G\u001b[34minfo\u001b[39m If you think this is a bug, please open a bug report with the information provided in \"/home/circleci/repo/yarn-error.log\".\r\n\u001b[2K\u001b[1G\u001b[34minfo\u001b[39m Visit \u001b[1mhttps://yarnpkg.com/en/docs/cli/run\u001b[22m for documentation about this command.\r\n",
+    "time": "2019-11-11T21:05:49.696Z",
+    "type": "out"
+  },
+  {
+    "message": "Exited with code 1",
+    "time": "2019-11-11T21:05:49.703Z",
+    "type": "err"
+  }
+]

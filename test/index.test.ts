@@ -1,3 +1,6 @@
+import fs from 'fs'
+import nock from 'nock'
+import path from 'path'
 import { Application } from 'probot'
 
 import ciStatusReport from '../src'
@@ -7,7 +10,10 @@ const basePayload = {
   repository: {
     name: 'CI-Status-Report-Test',
     owner: { login: 'LoganArnett' }
-  }
+  },
+  commit: { sha: '6b50c5d0ae79e277908c2d60c4e3ab242827c0e3', html_url: 'https://localhost:3000' },
+  sender: 'LoganArnett',
+  branches: [{ name: 'develop' }]
 }
 
 describe('CI-Status-Report Tests', () => {
@@ -16,7 +22,8 @@ describe('CI-Status-Report Tests', () => {
   beforeEach(() => {
     probot = new Application()
     github = {
-      issues: { createComment: jest.fn() }
+      issues: { createComment: jest.fn() },
+      pulls: { list: jest.fn(() => Promise.resolve([])) }
     }
 
     probot.auth = jest.fn(() => Promise.resolve(github))
@@ -51,17 +58,43 @@ describe('CI-Status-Report Tests', () => {
     expect(github.issues.createComment).not.toHaveBeenCalled()
   })
 
-  it('should create a comment', async () => {
-    const event = {
-      name: 'status',
-      payload: {
-        ...basePayload,
-        state: 'failure',
-        context: 'ci/circleci'
-      }
-    }
+  describe('Circle CI Tests', () => {
+    let event: any
 
-    await probot.receive(event)
-    expect(github.issues.createComment).toHaveBeenCalled()
+    let build: any = fs.readFileSync(path.join(__dirname, 'fixtures/CircleCI', 'build-status.json'), 'utf8')
+    let buildLogs: any = fs.readFileSync(path.join(__dirname, 'fixtures/CircleCI', 'build-logs.json'), 'utf8')
+
+    beforeEach(() => {
+      event = {
+        name: 'status',
+        payload: {
+          ...basePayload,
+          target_url: 'https://circleci.com/gh/LoganArnett/CI-Status-Report-Test/7?utm_campaign=vcs-integration-link&utm_medium=referral&utm_source=github-build-link',
+          context: 'ci/circleci',
+          state: 'failure',
+          commit: { sha: '6b50c5d0ae79e277908c2d60c4e3ab242827c0e3', html_url: 'https://localhost:3000' },
+          sender: 'LoganArnett',
+          branches: [ { name: 'develop' }]
+        }
+      }
+    })
+
+    it('should create a PR comment for a failed build', async () => {
+      nock('https://circleci.com')
+        .get('/api/v1.1/project/github/LoganArnett/CI-Status-Report-Test/7').reply(200, build)
+        .get('/circleci-logs-output-url').reply(200, buildLogs)
+
+      github.pulls.list.mockReturnValueOnce(Promise.resolve({ data: [{ number: 5 }] }))
+
+      await probot.receive(event)
+      expect(github.issues.createComment).toHaveBeenCalledTimes(1)
+
+      const commentBody = github.issues.createComment.mock.calls[0][0]
+
+      expect(commentBody.owner).toBe('LoganArnett')
+      expect(commentBody.repo).toBe('CI-Status-Report-Test')
+      expect(commentBody.issue_number).toBe(5)
+      expect(commentBody.body).toMatchSnapshot()
+    })
   })
 })

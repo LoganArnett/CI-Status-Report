@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CI-Status-Report Tests Circle CI Tests should create a PR comment for a failed build 1`] = `
+"
+<p align=\\"center\\">
+<img width=\\"400\\" height=\\"125\\" src=\\"http://cloud.loganarnett.com/f3467142ee70/Image%2525202019-11-08%252520at%2525202.31.28%252520AM.png\\">
+</p>
+
+
+## Build [#7](https://circleci.com/gh/LoganArnett/CI-Status-Report-Test/7?utm_campaign=vcs-integration-link&utm_medium=referral&utm_source=github-build-link) Failed
+
+
+This PR is moving right along but the build has failed - [#7](https://circleci.com/gh/LoganArnett/CI-Status-Report-Test/7?utm_campaign=vcs-integration-link&utm_medium=referral&utm_source=github-build-link).
+
+
+The commit that started this build can be found here [**6b50c5d**](https://localhost:3000).
+
+
+\`\`\`bash
+yarn run v1.5.1
+$ mocha
+
+
+  Test Suite
+    stringAddition helper
+      1) should add strings and return a number
+
+
+  0 passing (6ms)
+  1 failing
+
+  1) Test Suite
+       stringAddition helper
+         should add strings and return a number:
+
+      AssertionError [ERR_ASSERTION]: 4 == 3
+      + expected - actual
+
+      -4
+      +3
+      
+      at Context.it (test/index.test.js:8:14)
+
+
+
+error An unexpected error occurred: \\"Command failed.
+Exit code: 1
+Command: sh
+Arguments: -c mocha
+Directory: /home/circleci/repo
+Output:
+\\".
+info If you think this is a bug, please open a bug report with the information provided in \\"/home/circleci/repo/yarn-error.log\\".
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+\`\`\`
+Once you have updated the PR and the build is passing then :shipit:
+
+
+"
+`;

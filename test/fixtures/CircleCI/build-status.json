@@ -1,0 +1,292 @@
+{
+  "compare": null,
+  "previous_successful_build": null,
+  "build_parameters": {
+    "CIRCLE_JOB": "build"
+  },
+  "oss": true,
+  "all_commit_details_truncated": false,
+  "committer_date": "2019-11-11T16:05:34-05:00",
+  "steps": [
+    {
+      "name": "Spin up Environment",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": null,
+          "infrastructure_fail": null,
+          "name": "Spin up Environment",
+          "bash_command": null,
+          "status": "success",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T21:05:45.839Z",
+          "type": "test",
+          "allocation_id": "5dc9cd205a50140c4b0aee22-0-build/9E32FE0",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/708af7de57cfd04832dc9cd5-5dc9c1a3948156203b0ea861-0-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T211357Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=ecdb4940dc35063a1da3bfb37951ae569c2ed66f73871fc26ce2182d1cf30654",
+          "start_time": "2019-11-11T21:05:39.424Z",
+          "background": false,
+          "exit_code": null,
+          "insignificant": false,
+          "canceled": null,
+          "step": 0,
+          "run_time_millis": 6415,
+          "has_output": true
+        }
+      ]
+    },
+    {
+      "name": "Checkout code",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": null,
+          "infrastructure_fail": null,
+          "name": "Checkout code",
+          "bash_command": "#!/bin/sh\nset -e\n\n# Workaround old docker images with incorrect $HOME\n# check https://github.com/docker/docker/issues/2968 for details\nif [ \"${HOME}\" = \"/\" ]\nthen\n  export HOME=$(getent passwd $(id -un) | cut -d: -f6)\nfi\n\nmkdir -p ~/.ssh\n\necho 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==\nbitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==\n' >> ~/.ssh/known_hosts\n\n(umask 077; touch ~/.ssh/id_rsa)\nchmod 0600 ~/.ssh/id_rsa\n(cat <<EOF > ~/.ssh/id_rsa\n$CHECKOUT_KEY\nEOF\n)\n\n# use git+ssh instead of https\ngit config --global url.\"ssh://git@github.com\".insteadOf \"https://github.com\" || true\ngit config --global gc.auto 0 || true\n\nif [ -e /home/circleci/repo/.git ]\nthen\n  cd /home/circleci/repo\n  git remote set-url origin \"$CIRCLE_REPOSITORY_URL\" || true\nelse\n  mkdir -p /home/circleci/repo\n  cd /home/circleci/repo\n  git clone \"$CIRCLE_REPOSITORY_URL\" .\nfi\n\nif [ -n \"$CIRCLE_TAG\" ]\nthen\n  git fetch --force origin \"refs/tags/${CIRCLE_TAG}\"\nelse\n  git fetch --force origin \"master:remotes/origin/master\"\nfi\n\n\nif [ -n \"$CIRCLE_TAG\" ]\nthen\n  git reset --hard \"$CIRCLE_SHA1\"\n  git checkout -q \"$CIRCLE_TAG\"\nelif [ -n \"$CIRCLE_BRANCH\" ]\nthen\n  git reset --hard \"$CIRCLE_SHA1\"\n  git checkout -q -B \"$CIRCLE_BRANCH\"\nfi\n\ngit reset --hard \"$CIRCLE_SHA1\"",
+          "status": "success",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T21:05:46.471Z",
+          "type": "test",
+          "allocation_id": "5dc9cd205a50140c4b0aee22-0-build/9E32FE0",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/b48af7de57cfd048a2dc9cd5-5dc9c1a3948156203b0ea861-101-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T211357Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=f8eb0d2878eb7b12cb8e1bfb4e77d9f91c143481f4b846949959075e1bccb37d",
+          "start_time": "2019-11-11T21:05:46.123Z",
+          "background": false,
+          "exit_code": null,
+          "insignificant": false,
+          "canceled": null,
+          "step": 101,
+          "run_time_millis": 348,
+          "has_output": true
+        }
+      ]
+    },
+    {
+      "name": "Restoring Cache",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": null,
+          "infrastructure_fail": null,
+          "name": "Restoring Cache",
+          "bash_command": null,
+          "status": "success",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T21:05:46.674Z",
+          "type": "test",
+          "allocation_id": "5dc9cd205a50140c4b0aee22-0-build/9E32FE0",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/256c42dfb75778a9a2dc9cd5-5dc9c1a3948156203b0ea861-102-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T211357Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=b15c960bb70c23c9ee42c53de2886fb1e9123ef92753441e1bd46602145d7348",
+          "start_time": "2019-11-11T21:05:46.480Z",
+          "background": false,
+          "exit_code": null,
+          "insignificant": false,
+          "canceled": null,
+          "step": 102,
+          "run_time_millis": 194,
+          "has_output": true
+        }
+      ]
+    },
+    {
+      "name": "yarn install",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": null,
+          "infrastructure_fail": null,
+          "name": "yarn install",
+          "bash_command": "#!/bin/bash -eo pipefail\nyarn install",
+          "status": "success",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T21:05:48.621Z",
+          "type": "test",
+          "allocation_id": "5dc9cd205a50140c4b0aee22-0-build/9E32FE0",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/958af7de57cfd048a2dc9cd5-5dc9c1a3948156203b0ea861-103-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T211357Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=07e14e637525d2855fc4d053a4b5f526bf744e4609e7e13b181951760c778c1b",
+          "start_time": "2019-11-11T21:05:46.681Z",
+          "background": false,
+          "exit_code": 0,
+          "insignificant": false,
+          "canceled": null,
+          "step": 103,
+          "run_time_millis": 1940,
+          "has_output": true
+        }
+      ]
+    },
+    {
+      "name": "Saving Cache",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": null,
+          "infrastructure_fail": null,
+          "name": "Saving Cache",
+          "bash_command": null,
+          "status": "success",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T21:05:49.130Z",
+          "type": "test",
+          "allocation_id": "5dc9cd205a50140c4b0aee22-0-build/9E32FE0",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/d666e758551bdeccc2dc9cd5-5dc9c1a3948156203b0ea861-104-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T211357Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=4fc409f2895a4d64cd4e17fe52771489b86b66e3195dc8e460a249366f647af7",
+          "start_time": "2019-11-11T21:05:48.629Z",
+          "background": false,
+          "exit_code": null,
+          "insignificant": false,
+          "canceled": null,
+          "step": 104,
+          "run_time_millis": 501,
+          "has_output": true
+        }
+      ]
+    },
+    {
+      "name": "yarn test",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": true,
+          "infrastructure_fail": null,
+          "name": "yarn test",
+          "bash_command": "#!/bin/bash -eo pipefail\nyarn test",
+          "status": "failed",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T21:05:49.707Z",
+          "type": "test",
+          "allocation_id": "5dc9cd205a50140c4b0aee22-0-build/9E32FE0",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/b7422d0603225a5fd2dc9cd5-5dc9c1a3948156203b0ea861-105-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T211357Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=7e8f3714762e6cf4e14aec297b1c3c5c7dbf8f6d9a42ff2a907c41adfda71a48",
+          "start_time": "2019-11-11T21:05:49.136Z",
+          "background": false,
+          "exit_code": 1,
+          "insignificant": false,
+          "canceled": null,
+          "step": 105,
+          "run_time_millis": 571,
+          "has_output": true
+        }
+      ]
+    }
+  ],
+  "body": "",
+  "usage_queued_at": "2019-11-11T21:05:36.482Z",
+  "context_ids": [],
+  "fail_reason": null,
+  "retry_of": null,
+  "reponame": "CI-Status-Report-Test",
+  "ssh_users": [],
+  "build_url": "https://circleci.com/gh/LoganArnett/CI-Status-Report-Test/7",
+  "parallel": 1,
+  "failed": true,
+  "branch": "master",
+  "username": "LoganArnett",
+  "author_date": "2019-11-11T16:05:34-05:00",
+  "why": "github",
+  "user": {
+    "is_user": true,
+    "login": "LoganArnett",
+    "avatar_url": "https://avatars2.githubusercontent.com/u/8780547?v=4",
+    "name": "Logan Arnett",
+    "vcs_type": "github",
+    "id": 8780547
+  },
+  "vcs_revision": "9a7d1ce47f2b4becfc49eefa37a9c4512f14de84",
+  "workflows": {
+    "job_name": "build",
+    "job_id": "05cb3593-7e7d-4f5d-a93a-ae4a1ac61d73",
+    "workflow_id": "dafc6de6-556e-40b9-a531-e33d1780307f",
+    "workspace_id": "dafc6de6-556e-40b9-a531-e33d1780307f",
+    "upstream_job_ids": [],
+    "upstream_concurrency_map": {},
+    "workflow_name": "workflow"
+  },
+  "owners": [
+    "LoganArnett"
+  ],
+  "vcs_tag": null,
+  "pull_requests": [],
+  "build_num": 7,
+  "infrastructure_fail": false,
+  "committer_email": "noreply@github.com",
+  "has_artifacts": true,
+  "previous": {
+    "build_num": 2,
+    "status": "failed",
+    "build_time_millis": 15712
+  },
+  "status": "failed",
+  "committer_name": "GitHub",
+  "retries": null,
+  "subject": "Update config.yml",
+  "vcs_type": "github",
+  "timedout": false,
+  "dont_build": null,
+  "lifecycle": "finished",
+  "no_dependency_cache": false,
+  "stop_time": "2019-11-11T21:05:49.748Z",
+  "ssh_disabled": true,
+  "build_time_millis": 10388,
+  "picard": {
+    "build_agent": {
+      "image": "circleci/picard@sha256:5560026b5ddb7508e9b3d172a94404c2191884d4881f71196eb8c017fddb948e",
+      "properties": {
+        "build_agent": "1.0.18505-725763e3",
+        "executor": "docker"
+      }
+    },
+    "resource_class": {
+      "cpu": 2,
+      "ram": 4096,
+      "class": "medium"
+    },
+    "executor": "docker"
+  },
+  "circle_yml": {
+    "string": "version: 2\njobs:\n  build:\n    docker:\n    - image: circleci/node:8.10\n    working_directory: ~/repo\n    steps:\n    - checkout\n    - restore_cache:\n        keys:\n        - v1-dependencies-{{ checksum \"package.json\" }}\n        - v1-dependencies-\n    - run: yarn install\n    - save_cache:\n        paths:\n        - node_modules\n        key: v1-dependencies-{{ checksum \"package.json\" }}\n    - run: yarn test\n    environment:\n    - CIRCLE_COMPARE_URL: https://github.com/LoganArnett/CI-Status-Report-Test/compare/c0826092d8a3...9a7d1ce47f2b\nworkflows:\n  version: 2\n  workflow:\n    jobs:\n    - build\n"
+  },
+  "messages": [],
+  "is_first_green_build": false,
+  "job_name": null,
+  "start_time": "2019-11-11T21:05:39.360Z",
+  "canceler": null,
+  "all_commit_details": [
+    {
+      "committer_date": "2019-11-11T16:05:34-05:00",
+      "body": "",
+      "branch": "master",
+      "author_date": "2019-11-11T16:05:34-05:00",
+      "committer_email": "noreply@github.com",
+      "commit": "9a7d1ce47f2b4becfc49eefa37a9c4512f14de84",
+      "committer_login": "web-flow",
+      "committer_name": "GitHub",
+      "subject": "Update config.yml",
+      "commit_url": "https://github.com/LoganArnett/CI-Status-Report-Test/commit/9a7d1ce47f2b4becfc49eefa37a9c4512f14de84",
+      "author_login": "LoganArnett",
+      "author_name": "Logan Arnett",
+      "author_email": "logan@loganarnett.com"
+    }
+  ],
+  "platform": "2.0",
+  "outcome": "failed",
+  "vcs_url": "https://github.com/LoganArnett/CI-Status-Report-Test",
+  "author_name": "Logan Arnett",
+  "node": null,
+  "queued_at": "2019-11-11T21:05:36.516Z",
+  "canceled": false,
+  "author_email": "logan@loganarnett.com"
+}
