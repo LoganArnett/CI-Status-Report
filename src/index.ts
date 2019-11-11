@@ -1,13 +1,32 @@
-import { Application } from 'probot' // eslint-disable-line no-unused-vars
+import { Application, Context } from 'probot' // eslint-disable-line no-unused-vars
 
-export = (app: Application) => {
-  app.on('issues.opened', async (context) => {
-    const issueComment = context.issue({ body: 'Thanks for opening this issue!' })
-    await context.github.issues.createComment(issueComment)
+/**
+ * Check for CI provider match
+ */
+const checkCIProvider = (context: string): boolean | string => {
+  const matchedContext = context.match(/circleci|travis/)
+  return matchedContext ? matchedContext[0] : false
+}
+
+/**
+ * Listens for the 'status' event and reacts to 'failure' state
+ */
+const onStatus = async (statusContext: Context): Promise<void> => {
+  const { payload } = statusContext
+
+  const ciProvider = checkCIProvider(payload.context)
+  if (payload.state !== 'failure' || !ciProvider) return
+
+  console.log('Build the Comment with Build Info Here')
+
+  await statusContext.github.issues.createComment({
+    owner: 'LoganArnett',
+    repo: 'CI-Status-Report-Test',
+    issue_number: 1,
+    body: 'Testing Testing'
   })
-  // For more information on building apps:
-  // https://probot.github.io/docs/
+}
 
-  // To get your app running against GitHub, see:
-  // https://probot.github.io/docs/development/
+export default (app: Application) => {
+  app.on('status', onStatus)
 }
