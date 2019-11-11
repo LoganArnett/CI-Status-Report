@@ -7,7 +7,10 @@ const basePayload = {
   repository: {
     name: 'CI-Status-Report-Test',
     owner: { login: 'LoganArnett' }
-  }
+  },
+  commit: { sha: '6b50c5d0ae79e277908c2d60c4e3ab242827c0e3', html_url: 'https://localhost:3000' },
+  sender: 'LoganArnett',
+  branches: [{ name: 'develop' }]
 }
 
 describe('CI-Status-Report Tests', () => {
@@ -16,7 +19,8 @@ describe('CI-Status-Report Tests', () => {
   beforeEach(() => {
     probot = new Application()
     github = {
-      issues: { createComment: jest.fn() }
+      issues: { createComment: jest.fn() },
+      pulls: { list: jest.fn(() => Promise.resolve([])) }
     }
 
     probot.auth = jest.fn(() => Promise.resolve(github))
@@ -57,9 +61,12 @@ describe('CI-Status-Report Tests', () => {
       payload: {
         ...basePayload,
         state: 'failure',
-        context: 'ci/circleci'
+        context: 'ci/circleci',
+        target_url: 'https://circleci.com/gh/LoganArnett/ci-status-report-test/1?utm_campaign=vcs-integration-link&utm_medium=referral&utm_source=github-build-link',
       }
     }
+
+    github.pulls.list.mockReturnValueOnce(Promise.resolve({ data: [{ number: 5 }] }))
 
     await probot.receive(event)
     expect(github.issues.createComment).toHaveBeenCalled()
