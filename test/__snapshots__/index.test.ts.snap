@@ -58,3 +58,25 @@ Once you have updated the PR and the build is passing then :shipit:
 
 "
 `;
+
+exports[`CI-Status-Report Tests Travis CI Tests should create a PR comment for a failed build 1`] = `
+"
+<p align=\\"center\\">
+<img width=\\"400\\" height=\\"150\\" src=\\"http://cloud.loganarnett.com/be61972f4407/Image%2525202019-11-08%252520at%2525202.31.55%252520AM.png\\">
+</p>
+
+
+## Build [#3](https://travis-ci.org/LoganArnett/ci-status-report/builds/3?utm_source=github_status&utm_medium=notification) Failed
+
+
+This PR is moving right along but the build has failed - [#3](https://travis-ci.org/LoganArnett/ci-status-report/builds/3?utm_source=github_status&utm_medium=notification).
+
+
+The commit that started this build can be found here [**6b50c5d**](https://localhost:3000).
+
+
+Once you have updated the PR and the build is passing then :shipit:
+
+
+"
+`;
