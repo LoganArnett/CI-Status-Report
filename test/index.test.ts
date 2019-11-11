@@ -62,7 +62,7 @@ describe('CI-Status-Report Tests', () => {
         ...basePayload,
         state: 'failure',
         context: 'ci/circleci',
-        target_url: 'https://circleci.com/gh/LoganArnett/ci-status-report-test/1?utm_campaign=vcs-integration-link&utm_medium=referral&utm_source=github-build-link',
+        target_url: 'https://circleci.com/gh/LoganArnett/ci-status-report-test/1?utm_campaign=vcs-integration-link&utm_medium=referral&utm_source=github-build-link'
       }
     }
 
