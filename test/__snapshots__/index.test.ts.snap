@@ -17,36 +17,41 @@ The commit that started this build can be found here [**6b50c5d**](https://local
 
 
 \`\`\`bash
-
-> ci-status-check-sandbox@1.0.0 test /home/circleci/repo
-> mocha
-
+yarn run v1.5.1
+$ mocha
 
 
-  Mini Test Suite
-    Testing Math
-      1) should add 2 and 2
+  Test Suite
+    stringAddition helper
+      1) should add strings and return a number
 
 
-  0 passing (7ms)
+  0 passing (6ms)
   1 failing
 
-  1) Mini Test Suite
-       Testing Math
-         should add 2 and 2:
+  1) Test Suite
+       stringAddition helper
+         should add strings and return a number:
 
-      AssertionError: 4 == 5
+      AssertionError [ERR_ASSERTION]: 4 == 3
       + expected - actual
 
       -4
-      +5
+      +3
       
-      at Context.it (test/index.js:6:16)
+      at Context.it (test/index.test.js:8:14)
 
 
 
-
-
+error An unexpected error occurred: \\"Command failed.
+Exit code: 1
+Command: sh
+Arguments: -c mocha
+Directory: /home/circleci/repo
+Output:
+\\".
+info If you think this is a bug, please open a bug report with the information provided in \\"/home/circleci/repo/yarn-error.log\\".
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
 \`\`\`
 Once you have updated the PR and the build is passing then :shipit:
 
