@@ -1,0 +1,303 @@
+{
+  "compare": null,
+  "previous_successful_build": null,
+  "build_parameters": null,
+  "oss": true,
+  "committer_date": "2018-07-23T11:35:12-04:00",
+  "steps": [
+    {
+      "name": "Spin up Environment",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": null,
+          "infrastructure_fail": null,
+          "name": "Spin up Environment",
+          "bash_command": null,
+          "status": "success",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T02:42:59.241Z",
+          "type": "test",
+          "allocation_id": "5dc8ca9db7e76c4542f2138d-0-build/1185244F",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/1780156251d7580e3aac8cd5-5b50e65b17ace60013941264-0-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T034928Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=ae19abfcf7fc239222fad18e082245e4c21f733ab081442aa70770c3423234c9",
+          "start_time": "2019-11-11T02:42:43.174Z",
+          "background": false,
+          "exit_code": null,
+          "insignificant": false,
+          "canceled": null,
+          "step": 0,
+          "run_time_millis": 16067,
+          "has_output": true
+        }
+      ]
+    },
+    {
+      "name": "Checkout code",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": null,
+          "infrastructure_fail": null,
+          "name": "Checkout code",
+          "bash_command": "#!/bin/sh\nset -e\n\n# Workaround old docker images with incorrect $HOME\n# check https://github.com/docker/docker/issues/2968 for details\nif [ \"${HOME}\" = \"/\" ]\nthen\n  export HOME=$(getent passwd $(id -un) | cut -d: -f6)\nfi\n\nmkdir -p ~/.ssh\n\necho 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==\nbitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==\n' >> ~/.ssh/known_hosts\n\n(umask 077; touch ~/.ssh/id_rsa)\nchmod 0600 ~/.ssh/id_rsa\n(cat <<EOF > ~/.ssh/id_rsa\n$CHECKOUT_KEY\nEOF\n)\n\n# use git+ssh instead of https\ngit config --global url.\"ssh://git@github.com\".insteadOf \"https://github.com\" || true\ngit config --global gc.auto 0 || true\n\nif [ -e /home/circleci/repo/.git ]\nthen\n  cd /home/circleci/repo\n  git remote set-url origin \"$CIRCLE_REPOSITORY_URL\" || true\nelse\n  mkdir -p /home/circleci/repo\n  cd /home/circleci/repo\n  git clone \"$CIRCLE_REPOSITORY_URL\" .\nfi\n\nif [ -n \"$CIRCLE_TAG\" ]\nthen\n  git fetch --force origin \"refs/tags/${CIRCLE_TAG}\"\nelse\n  git fetch --force origin \"develop:remotes/origin/develop\"\nfi\n\n\nif [ -n \"$CIRCLE_TAG\" ]\nthen\n  git reset --hard \"$CIRCLE_SHA1\"\n  git checkout -q \"$CIRCLE_TAG\"\nelif [ -n \"$CIRCLE_BRANCH\" ]\nthen\n  git reset --hard \"$CIRCLE_SHA1\"\n  git checkout -q -B \"$CIRCLE_BRANCH\"\nfi\n\ngit reset --hard \"$CIRCLE_SHA1\"",
+          "status": "success",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T02:42:59.835Z",
+          "type": "test",
+          "allocation_id": "5dc8ca9db7e76c4542f2138d-0-build/1185244F",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/935af3071338f2e83bac8cd5-5b50e65b17ace60013941264-101-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T034928Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=fffc0bf203e8652f6f1a3323d03d1bc4d47ecf94262c0cbb5bb54692943a9146",
+          "start_time": "2019-11-11T02:42:59.512Z",
+          "background": false,
+          "exit_code": null,
+          "insignificant": false,
+          "canceled": null,
+          "step": 101,
+          "run_time_millis": 323,
+          "has_output": true
+        }
+      ]
+    },
+    {
+      "name": "Restoring Cache",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": null,
+          "infrastructure_fail": null,
+          "name": "Restoring Cache",
+          "bash_command": null,
+          "status": "success",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T02:43:00.169Z",
+          "type": "test",
+          "allocation_id": "5dc8ca9db7e76c4542f2138d-0-build/1185244F",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/8326577ff65b5f0e3bac8cd5-5b50e65b17ace60013941264-102-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T034928Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=1f87075339f5c44b848a207cd6d7fdd1b1350dc38382e8d05b5c9e47054e5d96",
+          "start_time": "2019-11-11T02:42:59.842Z",
+          "background": false,
+          "exit_code": null,
+          "insignificant": false,
+          "canceled": null,
+          "step": 102,
+          "run_time_millis": 327,
+          "has_output": true
+        }
+      ]
+    },
+    {
+      "name": "npm install",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": null,
+          "infrastructure_fail": null,
+          "name": "npm install",
+          "bash_command": "#!/bin/bash -eo pipefail\nnpm install",
+          "status": "success",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T02:43:00.765Z",
+          "type": "test",
+          "allocation_id": "5dc8ca9db7e76c4542f2138d-0-build/1185244F",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/7980156251d7580e4bac8cd5-5b50e65b17ace60013941264-103-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T034928Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=5fdf872e1dbc09e5c4aa52e3b2e796f622cd0791b5aff0e1b375e8f1246def79",
+          "start_time": "2019-11-11T02:43:00.175Z",
+          "background": false,
+          "exit_code": 0,
+          "insignificant": false,
+          "canceled": null,
+          "step": 103,
+          "run_time_millis": 590,
+          "has_output": true
+        }
+      ]
+    },
+    {
+      "name": "Saving Cache",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": null,
+          "infrastructure_fail": null,
+          "name": "Saving Cache",
+          "bash_command": null,
+          "status": "success",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T02:43:00.797Z",
+          "type": "test",
+          "allocation_id": "5dc8ca9db7e76c4542f2138d-0-build/1185244F",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/a980156251d7580e4bac8cd5-5b50e65b17ace60013941264-104-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T034928Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=67f47f4284280e8a61a07f621fcea3df5b747a482c91c3e27babf63ec6444525",
+          "start_time": "2019-11-11T02:43:00.772Z",
+          "background": false,
+          "exit_code": null,
+          "insignificant": false,
+          "canceled": null,
+          "step": 104,
+          "run_time_millis": 25,
+          "has_output": true
+        }
+      ]
+    },
+    {
+      "name": "npm run test",
+      "actions": [
+        {
+          "truncated": false,
+          "index": 0,
+          "parallel": true,
+          "failed": true,
+          "infrastructure_fail": null,
+          "name": "npm run test",
+          "bash_command": "#!/bin/bash -eo pipefail\nnpm run test",
+          "status": "failed",
+          "timedout": null,
+          "continue": null,
+          "end_time": "2019-11-11T02:43:01.507Z",
+          "type": "test",
+          "allocation_id": "5dc8ca9db7e76c4542f2138d-0-build/1185244F",
+          "output_url": "https://circle-production-action-output.s3.amazonaws.com/5343978856735bb84bac8cd5-5b50e65b17ace60013941264-105-0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191111T034928Z&X-Amz-SignedHeaders=host&X-Amz-Expires=431999&X-Amz-Credential=AKIAIJNI6FA5RIAFFQ7Q%2F20191111%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=0d3a0b100828fee62b090e14c5364ad705dd4d9730c53153b8630ed90f164c30",
+          "start_time": "2019-11-11T02:43:00.810Z",
+          "background": false,
+          "exit_code": 1,
+          "insignificant": false,
+          "canceled": null,
+          "step": 105,
+          "run_time_millis": 697,
+          "has_output": true
+        }
+      ]
+    }
+  ],
+  "body": "",
+  "usage_queued_at": "2019-11-11T02:42:37.891Z",
+  "fail_reason": null,
+  "retry_of": 110,
+  "reponame": "ci-status-report-test",
+  "ssh_users": [],
+  "build_url": "https://circleci.com/gh/LoganArnett/ci-status-report-test/7",
+  "parallel": 1,
+  "failed": true,
+  "branch": "develop",
+  "username": "LoganArnett",
+  "author_date": "2018-07-23T11:35:12-04:00",
+  "why": "retry",
+  "user": {
+    "is_user": true,
+    "login": "LoganArnett",
+    "avatar_url": "https://avatars2.githubusercontent.com/u/8780547?v=4",
+    "name": "Logan Arnett",
+    "vcs_type": "github",
+    "id": 8780547
+  },
+  "vcs_revision": "6b50c5d0ae79e277908c2d60c4e3ab242827c0e3",
+  "owners": [
+    "LoganArnett"
+  ],
+  "vcs_tag": null,
+  "pull_requests": [
+    {
+      "head_sha": "6b50c5d0ae79e277908c2d60c4e3ab242827c0e3",
+      "url": "https://github.com/LoganArnett/ci-status-report-test/pull/3"
+    },
+    {
+      "head_sha": "6338a4678e41bad0508a46e8179979fc0cfc391e",
+      "url": "https://github.com/LoganArnett/ci-status-report-test/pull/4"
+    }
+  ],
+  "build_num": 7,
+  "infrastructure_fail": false,
+  "committer_email": "logan@loganarnett.com",
+  "has_artifacts": true,
+  "previous": {
+    "build_num": 6,
+    "status": "failed",
+    "build_time_millis": 15891
+  },
+  "status": "failed",
+  "committer_name": "Logan Arnett",
+  "retries": null,
+  "subject": "adding gitignore",
+  "vcs_type": "github",
+  "timedout": false,
+  "dont_build": null,
+  "lifecycle": "finished",
+  "no_dependency_cache": false,
+  "stop_time": "2019-11-11T02:43:01.550Z",
+  "ssh_disabled": true,
+  "build_time_millis": 18426,
+  "picard": {
+    "build_agent": {
+      "image": "circleci/picard@sha256:5560026b5ddb7508e9b3d172a94404c2191884d4881f71196eb8c017fddb948e",
+      "properties": {
+        "build_agent": "1.0.18505-725763e3",
+        "executor": "docker"
+      }
+    },
+    "resource_class": {
+      "cpu": 2,
+      "ram": 4096,
+      "class": "medium"
+    },
+    "executor": "docker"
+  },
+  "circle_yml": {
+    "string": "# Javascript Node CircleCI 2.0 configuration file\n#\n#\nversion: 2\njobs:\n  build:\n    docker:\n      - image: circleci/node:7.10\n\n    working_directory: ~/repo\n\n    steps:\n      - checkout\n      - restore_cache:\n          keys:\n          - v1-dependencies-{{ checksum \"package.json\" }}\n          - v1-dependencies-\n\n      - run: npm install\n\n      - save_cache:\n          paths:\n            - node_modules\n          key: v1-dependencies-{{ checksum \"package.json\" }}\n\n      - run: npm run test"
+  },
+  "messages": [],
+  "is_first_green_build": false,
+  "job_name": null,
+  "start_time": "2019-11-11T02:42:43.124Z",
+  "canceler": null,
+  "all_commit_details": [
+    {
+      "committer_date": "2018-07-23T11:34:01-04:00",
+      "body": "",
+      "branch": "develop",
+      "author_date": "2018-07-23T11:34:01-04:00",
+      "committer_email": "logan@loganarnett.com",
+      "commit": "7fe460e3652a2d049384f82f528b3f21535b6109",
+      "committer_login": "LoganArnett",
+      "committer_name": "Logan Arnett",
+      "subject": "adding tests",
+      "commit_url": "https://github.com/LoganArnett/ci-status-report-test/commit/7fe460e3652a2d049384f82f528b3f21535b6109",
+      "author_login": "LoganArnett",
+      "author_name": "Logan Arnett",
+      "author_email": "logan@loganarnett.com"
+    },
+    {
+      "committer_date": "2018-07-23T11:35:12-04:00",
+      "body": "",
+      "branch": "develop",
+      "author_date": "2018-07-23T11:35:12-04:00",
+      "committer_email": "logan@loganarnett.com",
+      "commit": "6b50c5d0ae79e277908c2d60c4e3ab242827c0e3",
+      "committer_login": "LoganArnett",
+      "committer_name": "Logan Arnett",
+      "subject": "adding gitignore",
+      "commit_url": "https://github.com/LoganArnett/ci-status-report-test/commit/6b50c5d0ae79e277908c2d60c4e3ab242827c0e3",
+      "author_login": "LoganArnett",
+      "author_name": "Logan Arnett",
+      "author_email": "logan@loganarnett.com"
+    }
+  ],
+  "platform": "2.0",
+  "outcome": "failed",
+  "vcs_url": "https://github.com/LoganArnett/ci-status-report-test",
+  "author_name": "Logan Arnett",
+  "node": null,
+  "queued_at": "2019-11-11T02:42:37.928Z",
+  "canceled": false,
+  "author_email": "logan@loganarnett.com"
+}

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CI-Status-Report Tests Circle CI Tests should create a PR comment for a failed build 1`] = `
+"
+<p align=\\"center\\">
+<img width=\\"400\\" height=\\"125\\" src=\\"http://cloud.loganarnett.com/f3467142ee70/Image%2525202019-11-08%252520at%2525202.31.28%252520AM.png\\">
+</p>
+
+
+## Build [#7](https://circleci.com/gh/LoganArnett/CI-Status-Report-Test/7?utm_campaign=vcs-integration-link&utm_medium=referral&utm_source=github-build-link) Failed
+
+
+This PR is moving right along but the build has failed - [#7](https://circleci.com/gh/LoganArnett/CI-Status-Report-Test/7?utm_campaign=vcs-integration-link&utm_medium=referral&utm_source=github-build-link).
+
+
+The commit that started this build can be found here [**6b50c5d**](https://localhost:3000).
+
+
+\`\`\`bash
+
+> ci-status-check-sandbox@1.0.0 test /home/circleci/repo
+> mocha
+
+
+
+  Mini Test Suite
+    Testing Math
+      1) should add 2 and 2
+
+
+  0 passing (7ms)
+  1 failing
+
+  1) Mini Test Suite
+       Testing Math
+         should add 2 and 2:
+
+      AssertionError: 4 == 5
+      + expected - actual
+
+      -4
+      +5
+      
+      at Context.it (test/index.js:6:16)
+
+
+
+
+
+\`\`\`
+Once you have updated the PR and the build is passing then :shipit:
+
+
+"
+`;
