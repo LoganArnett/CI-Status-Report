@@ -30,16 +30,9 @@ async function onStatus (statusContext: Context): Promise<void> {
     } catch (err) {
       console.log(err)
     }
-  } else {
-    await statusContext.github.issues.createComment({
-      owner: 'LoganArnett',
-      repo: 'CI-Status-Report-Test',
-      issue_number: 1,
-      body: 'Travis Stub'
-    })
   }
 }
 
-export default (app: Application) => {
+export = (app: Application) => {
   app.on('status', onStatus)
 }
