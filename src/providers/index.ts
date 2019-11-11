@@ -1,1 +1,1 @@
-export * from './CircleCI'
+export { default as BuildCircleCIComment } from './CircleCI'

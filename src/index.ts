@@ -1,4 +1,7 @@
 import { Application, Context } from 'probot' // eslint-disable-line no-unused-vars
+import { IssuesCreateCommentParams } from '@octokit/rest';
+
+import { BuildCircleCIComment } from './providers';
 
 /**
  * Check for CI provider match
@@ -19,12 +22,22 @@ const onStatus = async (statusContext: Context): Promise<void> => {
 
   console.log('Build the Comment with Build Info Here')
 
-  await statusContext.github.issues.createComment({
-    owner: 'LoganArnett',
-    repo: 'CI-Status-Report-Test',
-    issue_number: 1,
-    body: 'Testing Testing'
-  })
+  if (ciProvider === 'circleci') {
+    try {
+      let comment: IssuesCreateCommentParams = await BuildCircleCIComment(statusContext)
+
+      await statusContext.github.issues.createComment(comment)
+    } catch (err) {
+      console.log(err)
+    }
+  } else {
+    await statusContext.github.issues.createComment({
+      owner: 'LoganArnett',
+      repo: 'CI-Status-Report-Test',
+      issue_number: 1,
+      body: 'Travis Stub'
+    })
+  }
 }
 
 export default (app: Application) => {
