@@ -1,7 +1,7 @@
 import { Application, Context } from 'probot' // eslint-disable-line no-unused-vars
-import { IssuesCreateCommentParams } from '@octokit/rest';
+import { IssuesCreateCommentParams } from '@octokit/rest' // eslint-disable-line no-unused-vars
 
-import { BuildCircleCIComment } from './providers';
+import { BuildCircleCIComment } from './providers'
 
 /**
  * Check for CI provider match
@@ -14,7 +14,7 @@ const checkCIProvider = (context: string): boolean | string => {
 /**
  * Listens for the 'status' event and reacts to 'failure' state
  */
-const onStatus = async (statusContext: Context): Promise<void> => {
+async function onStatus (statusContext: Context): Promise<void> {
   const { payload } = statusContext
 
   const ciProvider = checkCIProvider(payload.context)
@@ -24,7 +24,7 @@ const onStatus = async (statusContext: Context): Promise<void> => {
 
   if (ciProvider === 'circleci') {
     try {
-      let comment: IssuesCreateCommentParams = await BuildCircleCIComment(statusContext)
+      const comment: IssuesCreateCommentParams = await BuildCircleCIComment(statusContext)
 
       await statusContext.github.issues.createComment(comment)
     } catch (err) {
